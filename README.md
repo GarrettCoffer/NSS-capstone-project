@@ -18,8 +18,8 @@ slightly different output: /active_dispatch/[time code].csv
 
 ## API - NOAA.ipynb  
 >type: Jupyter Source File  
-This is to collect NOAA weather data from 1/1/2018-3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station) 
-url: https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00013897&startDate=2020-01-01&endDate=2025-03-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json
+This is to collect NOAA weather data from 1/1/2018-3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
+url: https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00013897&startDate=2020-01-01&endDate=2025-03-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json  
 output: ../data/noaa_weather_data.csv
 
 ## webscraping_nws_past_3_days.ipynb  
@@ -27,6 +27,12 @@ output: ../data/noaa_weather_data.csv
 This is set up to automatically run every day, 86400 seconds, from 3/29/2025 forward.  It only needs to be run every 2 or 3 days.  This is to collect real-time historic weather for Nashville - hour-by-hour precipitation and temperatures for the past 3 days, so the data collected is from 3/27/2025 onward.  
 url: https://forecast.weather.gov/data/obhistory/KBNA.html  
 output: ../data/nws_past_3/[code for report day and time].csv
+
+## webscraping_tencodes.ipynb  
+>type: Jupyter Source File  
+Used to scrape police "Ten Codes" descriptions  
+url: https://wiki.radioreference.com/index.php/Davidson_County_(TN)  
+output: ../data/tencodes.csv
 
 ## webscraping_titans.ipynb  
 >type: Jupyter Source File  
