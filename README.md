@@ -10,17 +10,28 @@ Being run every 6 minutes since 3/27/2025 to collect the Active Dispatch police 
 url: https://services2.arcgis.com/HdTo6HJqh92wn4D8/arcgis/rest/services/Metro_Nashville_Police_Department_Active_Dispatch_Table_view/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson  
 output: ../data/active_dispatch/[time code].csv
 
+## active_dispatch_combine_and_process.ipynb  
+>type: Jupyter Source File  
+Run to stitch the active dispatch tables together.  
+input: ../data/active_dispatch/[time code].csv  
+output: ../data/active_dispatch.csv  
 
 ## active_dispatch_downloader.py  
 >type: Python file  
-Same as above, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
-slightly different output: /active_dispatch/[time code].csv
+Similar to active_dispatch.ipynb, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
+output (slightly different from the .ipynb version): /active_dispatch/[time code].csv
 
-## API - NOAA.ipynb  
+## api_noaa.ipynb  
 >type: Jupyter Source File  
-This is to collect NOAA weather data from 1/1/2018-3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
+This is to collect NOAA weather data from 1/1/2018 - 3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
 url: https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00013897&startDate=2020-01-01&endDate=2025-03-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json  
 output: ../data/noaa_weather_data.csv
+
+## nws_combine_and_process.ipynb  
+>type: Jupyter Source File  
+Run to stitch the webscraped NWS data together (collected 3 days at a time).  
+input: ../data/nws_past_3/[code for report day and time].csv  
+output: ../data/nws_weather_data.csv  
 
 ## webscraping_nws_past_3_days.ipynb  
 >type: Jupyter Source File  
@@ -39,6 +50,12 @@ output: ../data/tencodes.csv
 Used to scrape 2018 - 2024 data about the Titans home games.  
 url: https://www.tennesseetitans.com/schedule/[year]/  
 output: ../data/titans_games/titans_[year].csv
+
+## webscraping_weather_gov_selenium.ipynb  
+>type: Jupyter Source File  
+Used Selenium plugin to scrape weather.gov for hour-by-hour values from 3/27 - 4/25/2025  
+url: https://www.weather.gov/wrh/timeseries?site=KBNA&hours=720&units=english&chart=off&headers=on&obs=tabular&hourly=true&pview=standard&font=12&history=yes&start=20250327&end=20250425&plot=  
+output: ../data/weather_gov_20250327_20250425.csv
 
 
 ## other data sources and files:
