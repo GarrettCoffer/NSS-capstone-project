@@ -4,7 +4,7 @@ This is the collection of notebooks for Garrett Coffer's 2025 capstone project f
 
 ---
 
-## active_dispatch.ipynb  
+## active_dispatch_json_extract.ipynb  
 >type: Jupyter Source File  
 Being run every 6 minutes since 3/27/2025 to collect the Active Dispatch police data from data.nashville.gov  
 url: https://services2.arcgis.com/HdTo6HJqh92wn4D8/arcgis/rest/services/Metro_Nashville_Police_Department_Active_Dispatch_Table_view/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson  
@@ -21,11 +21,17 @@ output: ../data/active_dispatch.csv
 Similar to active_dispatch.ipynb, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
 output (slightly different from the .ipynb version): /active_dispatch/[time code].csv
 
-## api_noaa.ipynb  
+## noaa_api_extract.ipynb  
 >type: Jupyter Source File  
 This is to collect NOAA weather data from 1/1/2018 - 3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
 url: https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00013897&startDate=2020-01-01&endDate=2025-03-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json  
 output: ../data/noaa_weather_data.csv
+
+## nws_3_day_webscrape.ipynb  
+>type: Jupyter Source File  
+This is set up to automatically run every day, 86400 seconds, from 3/29/2025 forward.  It only needs to be run every 2 or 3 days.  This is to collect real-time historic weather for Nashville - hour-by-hour precipitation and temperatures for the past 3 days, so the data collected is from 3/27/2025 onward.  
+url: https://forecast.weather.gov/data/obhistory/KBNA.html  
+output: ../data/nws_past_3/[code for report day and time].csv
 
 ## nws_combine_and_process.ipynb  
 >type: Jupyter Source File  
@@ -33,30 +39,29 @@ Run to stitch the webscraped NWS data together (collected 3 days at a time).
 input: ../data/nws_past_3/[code for report day and time].csv  
 output: ../data/nws_weather_data.csv  
 
-## webscraping_nws_past_3_days.ipynb  
->type: Jupyter Source File  
-This is set up to automatically run every day, 86400 seconds, from 3/29/2025 forward.  It only needs to be run every 2 or 3 days.  This is to collect real-time historic weather for Nashville - hour-by-hour precipitation and temperatures for the past 3 days, so the data collected is from 3/27/2025 onward.  
-url: https://forecast.weather.gov/data/obhistory/KBNA.html  
-output: ../data/nws_past_3/[code for report day and time].csv
-
-## webscraping_tencodes.ipynb  
+## tencodes_webscrape.ipynb  
 >type: Jupyter Source File  
 Used to scrape police "Ten Codes" descriptions  
 url: https://wiki.radioreference.com/index.php/Davidson_County_(TN)  
 output: ../data/tencodes.csv
 
-## webscraping_titans.ipynb  
+## titans_webscrape.ipynb  
 >type: Jupyter Source File  
 Used to scrape 2018 - 2024 data about the Titans home games.  
 url: https://www.tennesseetitans.com/schedule/[year]/  
 output: ../data/titans_games/titans_[year].csv
 
-## webscraping_weather_gov_selenium.ipynb  
+## weather_gov_webscrape.ipynb  
 >type: Jupyter Source File  
-Used Selenium plugin to scrape weather.gov for hour-by-hour values from 3/27 - 4/25/2025  
-url: https://www.weather.gov/wrh/timeseries?site=KBNA&hours=720&units=english&chart=off&headers=on&obs=tabular&hourly=true&pview=standard&font=12&history=yes&start=20250327&end=20250425&plot=  
-output: ../data/weather_gov_20250327_20250425.csv
+Used Selenium plugin to scrape weather.gov for hour-by-hour values from since 1/1/2018.  Scraping in 2 batches per month.  
+url: https://www.weather.gov/wrh/timeseries?site=KBNA&hours=500&units=english&chart=off&headers=on&obs=tabular&hourly=true&pview=standard&font=12&history=yes&start=20180101&end=20180115&plot=  
+output: ../data/weather_gov/weather_gov[yyyymmdd]-[yyyymmdd].csv
 
+## weather_gov_combine_and_process.ipynb  
+>type: Jupyter Source File  
+Run to stitch the webscraped Weather.gov data together (collected in 2 batches per month).  
+input: ../data/weather_gov/weather_gov[yyyymmdd]-[yyyymmdd].csv  
+output: ../data/weather_gov.csv  
 
 ## other data sources and files:
 
