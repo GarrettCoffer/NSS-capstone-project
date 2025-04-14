@@ -21,6 +21,12 @@ output: ../data/active_dispatch.csv
 Similar to active_dispatch.ipynb, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
 output (slightly different from the .ipynb version): /active_dispatch/[time code].csv
 
+## mnpd_service_calls_combine_and_process.ipynb  
+>type: Jupyter Source File  
+Run to stitch the MNPD data together (in years from 2018-2024, and 2025_ytd).  
+input: ../data/mnpd_calls_for_service/[year].csv  
+output: ../data/mnpd_calls_for_service.csv  
+
 ## noaa_api_extract.ipynb  
 >type: Jupyter Source File  
 This is to collect NOAA weather data from 1/1/2018 - 3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
