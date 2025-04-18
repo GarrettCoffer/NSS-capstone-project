@@ -1,6 +1,17 @@
-# NSS-capstone-project
+# MNPD Dispatch and Weather Project
 
 This is the collection of notebooks for Garrett Coffer's 2025 capstone project for Nashville Software School.
+
+## Motivation
+I was intrigued by the real-time active dispatch reports from data.nashville.gov, and thought that working with it could present an interesting challenge and fuel some interesting questions.  A real-time data pipeline is what sparked my interest.  My goal is to work with that data in a meaningful way, by combining it with archived police call data and weather data.
+
+## Data Questions  
+How does Nashville police call data compare over the last several years?  Additionally, how do weather events such as precipitation, wind, storms, or temperature fluctuations influence the frequency and nature of police calls?
+
+## Data Sources
+data.nashville.gov (CSV download) for police call data from 1/1/2020-4/10/2025  
+www.weather.gov (Selenium web scraping) for weather data from 1/1/2020-4/10/2025  
+data.nashville.gov for real-time active dispatch data (API)  
 
 ---
 
@@ -21,41 +32,23 @@ output: ../data/active_dispatch.csv
 Similar to active_dispatch.ipynb, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
 output (slightly different from the .ipynb version): /active_dispatch/[time code].csv
 
+## processomg.ipynb  
+>type: Jupyter Source File  
+Run to do more processing on all the other files (as a last step before importing into Power BI).  Calculates sums, averages, etc.  Flags storm days and hours.  Merges with dispatch codes.  Combines 4.5 million records from the MNPD calls into 1 daily summaries file.  
+input: ../data/mnpd_calls_for_service/[year].csv  
+output: ../data/mnpd_calls_for_service.csv  
+
 ## mnpd_service_calls_combine_and_process.ipynb  
 >type: Jupyter Source File  
 Run to stitch the MNPD data together (in years from 2018-2024, and 2025_ytd).  
 input: ../data/mnpd_calls_for_service/[year].csv  
 output: ../data/mnpd_calls_for_service.csv  
 
-## noaa_api_extract.ipynb  
->type: Jupyter Source File  
-This is to collect NOAA weather data from 1/1/2018 - 3/31/2025 through their API.  This calls for their temperature max, temperature min, and precipitation reported from station USW00013897 (the BNA / Nashville International Airport station)  
-url: https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00013897&startDate=2020-01-01&endDate=2025-03-31&dataTypes=TMAX,TMIN,PRCP&units=standard&format=json  
-output: ../data/noaa_weather_data.csv
-
-## nws_3_day_webscrape.ipynb  
->type: Jupyter Source File  
-This is set up to automatically run every day, 86400 seconds, from 3/29/2025 forward.  It only needs to be run every 2 or 3 days.  This is to collect real-time historic weather for Nashville - hour-by-hour precipitation and temperatures for the past 3 days, so the data collected is from 3/27/2025 onward.  
-url: https://forecast.weather.gov/data/obhistory/KBNA.html  
-output: ../data/nws_past_3/[code for report day and time].csv
-
-## nws_combine_and_process.ipynb  
->type: Jupyter Source File  
-Run to stitch the webscraped NWS data together (collected 3 days at a time).  
-input: ../data/nws_past_3/[code for report day and time].csv  
-output: ../data/nws_weather_data.csv  
-
 ## tencodes_webscrape.ipynb  
 >type: Jupyter Source File  
-Used to scrape police "Ten Codes" descriptions  
+Used to scrape police "Ten Codes" descriptions.  I did further combining in Excel, with tencode descriptions extracted from the active dispatch and mnpd tables.  
 url: https://wiki.radioreference.com/index.php/Davidson_County_(TN)  
-output: ../data/tencodes.csv
-
-## titans_webscrape.ipynb  
->type: Jupyter Source File  
-Used to scrape 2018 - 2024 data about the Titans home games.  
-url: https://www.tennesseetitans.com/schedule/[year]/  
-output: ../data/titans_games/titans_[year].csv
+output: ../data/tencodes.csv  
 
 ## weather_gov_webscrape.ipynb  
 >type: Jupyter Source File  
@@ -70,7 +63,6 @@ input: ../data/weather_gov/weather_gov[yyyymmdd]-[yyyymmdd].csv
 output: ../data/weather_gov.csv  
 
 ## other data sources and files:
-
 
 ## Metro Nashville Police Department Calls for Service  
 >source: data.nashville.gov  
