@@ -6,67 +6,35 @@ This is the collection of notebooks for Garrett Coffer's 2025 capstone project f
 [Power BI Dashboard](https://app.powerbi.com/view?r=eyJrIjoiMDMxZDU5NDUtMWFhMi00MTk4LTk5ODEtODJmNmFhNTMyZDEwIiwidCI6IjEwMWRhNTg3LTE4NDMtNGY1Mi04YjhhLTE3YjA2OWM2NmQzMyIsImMiOjJ9)
 
 ## Motivation
-I was intrigued by the real-time active dispatch reports from data.nashville.gov, and thought that working with it could present an interesting challenge and fuel some interesting questions.  A real-time data pipeline is what sparked my interest.  My goal is to work with that data in a meaningful way, by combining it with archived police call data and weather data.
+My inspiration for this project is that I was intrigued by the active dispatch reports from data.nashville.gov, and thought working with that data could present an interesting challenge and fuel some good questions.  The data shows a real-time snapshot (about every 8-15 minutes) of active emergencies where police are currently responding.  My goal was to work with that data in a meaningful way, by collecting it over a period of several weeks and combining it with archived police call data and weather data to look for patterns.
 
 ## Data Questions  
-How does Nashville police call data compare over the last several years?  Additionally, how do weather events such as precipitation, wind, storms, or temperature fluctuations influence the frequency and nature of police calls?
+- How does Nashville police call data compare over the last several years?  
+- How do weather events such as precipitation, wind, storms, or temperature fluctuations influence the frequency and nature of police calls?
+- What effect did the recent big storm system on April 5, 2025 have on the emergency calls?
 
 ## Data Sources
-[data.nashville.gov](data.nashville.gov) (CSV download) for police call data from 1/1/2018-4/10/2025  
-www.weather.gov (Selenium web scraping) for weather data from 1/1/2018-4/10/2025  
-[data.nashville.gov](data.nashville.gov) for real-time active dispatch data (API)  
+>[data.nashville.gov](https://www.nashville.gov/departments/police/online-resources/active-dispatches) (API) for real-time active dispatch data  
+3/27/2025 - 4/13/2025  
+Real-time data about the current active major incident calls for service received by the Emergency Communications Center dispatched to Metro Nashville Police Department.
 
----
+>[data.nashville.gov](https://datanashvillegov-nashville.hub.arcgis.com/datasets/Nashville::metro-nashville-police-department-calls-for-service/about) (CSV download) for police call data  
+1/1/2018-4/13/2025  
+Details about emergency and non-emergency calls for Metro Nashville Police Department service received by the Emergency Communications Center.
 
-## active_dispatch_json_extract.ipynb  
->type: Jupyter Source File  
-Being run every 6 minutes since 3/27/2025 to collect the Active Dispatch police data from data.nashville.gov  
-[link to url](https://services2.arcgis.com/HdTo6HJqh92wn4D8/arcgis/rest/services/Metro_Nashville_Police_Department_Active_Dispatch_Table_view/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson)  
-output: ../data/active_dispatch/[time code].csv
+>www.weather.gov (Selenium web scraping) for weather data  
+1/1/2018-4/13/2025  
 
-## active_dispatch_combine_and_process.ipynb  
->type: Jupyter Source File  
-Run to stitch the active dispatch tables together.  
-input: ../data/active_dispatch/[time code].csv  
-output: ../data/active_dispatch.csv  
+## Challenges
+- Weather.gov uses dynamic tables, so I learned about Selenium to web scrape the non-static weather data
+- The Active Dispatch data refreshes about every 8-15 minutes, so I needed to set up a python script to run every 6 minutes to gather the data.
+- The police call data had over 5 million rows in total, broken into multiple years.  That had to be worked with in batches.
+- The police call data and active dispatch data had many separate CSV files that had to be combined and processed to perform analysis.
 
-## active_dispatch_downloader.py  
->type: Python file  
-Similar to active_dispatch.ipynb, but a py file that is run in the command line.  This is being run on a different laptop on a different network (thanks Mom!) to help the integrity of the collection process, even if my wifi goes down for maintenance for 30 minutes.  
-output (slightly different from the .ipynb version): /active_dispatch/[time code].csv
-
-## processomg.ipynb  
->type: Jupyter Source File  
-Run to do more processing on all the other files (as a last step before importing into Power BI).  Calculates sums, averages, etc.  Flags storm days and hours.  Merges with dispatch codes.  Combines 4.5 million records from the MNPD calls into 1 daily summaries file.  
-input: ../data/mnpd_calls_for_service/[year].csv  
-output: ../data/mnpd_calls_for_service.csv  
-
-## mnpd_service_calls_combine_and_process.ipynb  
->type: Jupyter Source File  
-Run to stitch the MNPD data together (in years from 2018-2024, and 2025_ytd).  
-input: ../data/mnpd_calls_for_service/[year].csv  
-output: ../data/mnpd_calls_for_service.csv  
-
-## tencodes_webscrape.ipynb  
->type: Jupyter Source File  
-Used to scrape police "Ten Codes" descriptions.  I did further combining in Excel, with tencode descriptions extracted from the active dispatch and mnpd tables.  
-url: https://wiki.radioreference.com/index.php/Davidson_County_(TN)  
-output: ../data/tencodes.csv  
-
-## weather_gov_webscrape.ipynb  
->type: Jupyter Source File  
-Used Selenium plugin to scrape weather.gov for hour-by-hour values from since 1/1/2018.  Scraping in 2 batches per month.  
-[link to url](https://www.weather.gov/wrh/timeseries?site=KBNA&hours=500&units=english&chart=off&headers=on&obs=tabular&hourly=true&pview=standard&font=12&history=yes&start=20180101&end=20180115&plot=)  
-output: ../data/weather_gov/weather_gov[yyyymmdd]-[yyyymmdd].csv
-
-## weather_gov_combine_and_process.ipynb  
->type: Jupyter Source File  
-Run to stitch the webscraped Weather.gov data together (collected in 2 batches per month).  
-input: ../data/weather_gov/weather_gov[yyyymmdd]-[yyyymmdd].csv  
-output: ../data/weather_gov.csv  
-
-## other data sources and files:
-
-## Metro Nashville Police Department Calls for Service  
->source: data.nashville.gov  
-[link to url](https://datanashvillegov-nashville.hub.arcgis.com/search?categories=%252Fcategories%252Fpublic%2520safety&collection=Dataset&sort=Title%7Ctitle%7Casc)
+## Conclusion  
+- Some events like theft and disorderly conduct follow seasonal cycles and weekly cycles  
+- Weather does have an impact on the nature of police calls
+  - Precipitation decreases theft, but increases vehicle accidents, hazards, and disorderly conduct
+  - Days with 4 or more storm hours see a more extreme shift of increased vehicle accidents, hazards, and disorderly conduct
+  - Temperature extremes decrease the frequency of police calls
+- The recent storm on April 5 generated a lot of emergency calls, mostly from downed power lines and trees.  There were more emergency calls during the single highest-impact hour than there are on average for an entire day
