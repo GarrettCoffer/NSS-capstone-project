@@ -15,20 +15,20 @@ My inspiration for this project is that I was intrigued by the active dispatch r
 
 ## Data Sources
 >[data.nashville.gov](https://www.nashville.gov/departments/police/online-resources/active-dispatches) (API) for real-time active dispatch data  
-3/27/2025 - 4/13/2025  
+3/28/2025 - 4/21/2025  
 Real-time data about the current active major incident calls for service received by the Emergency Communications Center dispatched to Metro Nashville Police Department.
 
 >[data.nashville.gov](https://datanashvillegov-nashville.hub.arcgis.com/datasets/Nashville::metro-nashville-police-department-calls-for-service/about) (CSV download) for police call data  
-1/1/2018-4/13/2025  
+1/1/2018-4/21/2025  
 Details about emergency and non-emergency calls for Metro Nashville Police Department service received by the Emergency Communications Center.
 
 >www.weather.gov (Selenium web scraping) for weather data  
-1/1/2018-4/13/2025  
+1/1/2018-4/21/2025  
 
 ## Challenges
 - Weather.gov uses dynamic tables, so I learned about Selenium to web scrape the non-static weather data
 - The Active Dispatch data refreshes about every 8-15 minutes, so I needed to set up a python script to run every 6 minutes to gather the data.
-- The police call data had over 5 million rows in total, broken into multiple years.  That had to be worked with in batches.
+- The police call data had over 5 million rows in total, broken into multiple years.  That had to be worked in batches.
 - The police call data and active dispatch data had many separate CSV files that had to be combined and processed to perform analysis.
 
 ## Conclusion  
@@ -36,5 +36,5 @@ Details about emergency and non-emergency calls for Metro Nashville Police Depar
 - Weather does have an impact on the nature of police calls
   - Precipitation decreases theft, but increases vehicle accidents, hazards, and disorderly conduct
   - Days with 4 or more storm hours see a more extreme shift of increased vehicle accidents, hazards, and disorderly conduct
-  - Temperature extremes decrease the frequency of police calls
+  - Temperature extremes somewhat decrease the frequency of police calls
 - The recent storm on April 5 generated a lot of emergency calls, mostly from downed power lines and trees.  There were more emergency calls during the single highest-impact hour than there are on average for an entire day
